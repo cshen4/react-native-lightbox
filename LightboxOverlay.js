@@ -5,7 +5,9 @@ import { Animated, Dimensions, Modal, PanResponder, Platform, StatusBar, StyleSh
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const DRAG_DISMISS_THRESHOLD = 150;
-const STATUS_BAR_OFFSET = (Platform.OS === 'android' ? -25 : 0);
+//let STATUS_BAR_OFFSET = (Platform.OS === 'android' ? -25 : 0);
+// Hacked here. To solve the display problem on Android.
+let STATUS_BAR_OFFSET = (Platform.OS === 'android' ? 0 : 0);
 const isIOS = Platform.OS === 'ios';
 
 const styles = StyleSheet.create({
