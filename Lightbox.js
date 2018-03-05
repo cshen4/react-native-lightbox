@@ -20,6 +20,7 @@ export default class Lightbox extends Component {
       friction:      PropTypes.number,
     }),
     swipeToDismiss:  PropTypes.bool,
+    removeAndroidOffset: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -64,6 +65,7 @@ export default class Lightbox extends Component {
     didOpen: this.props.didOpen,
     willClose: this.props.willClose,
     onClose: this.onClose,
+    removeAndroidOffset: this.props.removeAndroidOffset,
   })
 
   open = () => {

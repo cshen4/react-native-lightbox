@@ -5,9 +5,8 @@ import { Animated, Dimensions, Modal, PanResponder, Platform, StatusBar, StyleSh
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const DRAG_DISMISS_THRESHOLD = 150;
-//let STATUS_BAR_OFFSET = (Platform.OS === 'android' ? -25 : 0);
-// Hacked here. To solve the display problem on Android.
-let STATUS_BAR_OFFSET = (Platform.OS === 'android' ? 0 : 0);
+let STATUS_BAR_OFFSET = (Platform.OS === 'android' ? -25 : 0);
+//Hacked here: added additional prop "removeAndroidOffset": when === true, removes the use of STATUS_BAR_OFFSET;
 const isIOS = Platform.OS === 'ios';
 
 const styles = StyleSheet.create({
@@ -67,11 +66,13 @@ export default class LightboxOverlay extends Component {
     onClose:         PropTypes.func,
     willClose:         PropTypes.func,
     swipeToDismiss:  PropTypes.bool,
+    removeAndroidOffset: Proptypes.bool,
   };
 
   static defaultProps = {
     springConfig: { tension: 30, friction: 7 },
     backgroundColor: 'black',
+    removeAndroidOffset: false,
   };
 
   state = {
@@ -183,6 +184,7 @@ export default class LightboxOverlay extends Component {
       isOpen,
       renderHeader,
       swipeToDismiss,
+      removeAndroidOffset,
       origin,
       backgroundColor,
     } = this.props;
@@ -198,6 +200,7 @@ export default class LightboxOverlay extends Component {
       opacity: openVal.interpolate({inputRange: [0, 1], outputRange: [0, target.opacity]})
     };
 
+
     let handlers;
     if(swipeToDismiss) {
       handlers = this._panResponder.panHandlers;
@@ -210,6 +213,8 @@ export default class LightboxOverlay extends Component {
       };
       lightboxOpacityStyle.opacity = this.state.pan.interpolate({inputRange: [-WINDOW_HEIGHT, 0, WINDOW_HEIGHT], outputRange: [0, 1, 0]});
     }
+
+    const OFFSET = removeAndroidOffset ? STATUS_BAR_OFFSET : 0;
 
     const openStyle = [styles.open, {
       left:   openVal.interpolate({inputRange: [0, 1], outputRange: [origin.x, target.x]}),
