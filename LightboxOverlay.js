@@ -66,7 +66,7 @@ export default class LightboxOverlay extends Component {
     onClose:         PropTypes.func,
     willClose:         PropTypes.func,
     swipeToDismiss:  PropTypes.bool,
-    removeAndroidOffset: Proptypes.bool,
+    removeAndroidOffset: PropTypes.bool,
   };
 
   static defaultProps = {
